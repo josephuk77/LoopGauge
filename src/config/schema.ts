@@ -21,6 +21,16 @@ const roleSelectionSchema = z.object({
   model: z.string().min(1),
 });
 
+const modelDiscoverySchema = z.object({
+  current: roleSelectionSchema,
+  maxCandidates: z.number().int().min(1).max(10).default(4),
+  refreshFromProvider: z.boolean().default(true),
+  source: z.enum(["provider-api", "built-in-catalog"]).optional(),
+  resolvedAt: z.iso.datetime().optional(),
+  candidates: z.array(z.string().min(1)).default([]),
+  warnings: z.array(z.string()).default([]),
+});
+
 const commandSchema = z.string().min(1).optional();
 
 const sampleTaskSchema = z.object({
@@ -57,6 +67,7 @@ export const loopConfigSchema = z
       allowedProviders: z.array(providerIdSchema).min(1),
       openai: providerConfigSchema.optional(),
       anthropic: providerConfigSchema.optional(),
+      modelDiscovery: modelDiscoverySchema.optional(),
       roles: z.object({
         teacher: roleSelectionSchema,
         candidates: z.array(roleSelectionSchema).min(1),

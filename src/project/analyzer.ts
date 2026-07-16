@@ -11,6 +11,11 @@ export interface ProjectAnalysis {
   sampleCount: number;
   allowedProviders: string[];
   allowedModels: Record<string, string[]>;
+  modelDiscovery?: {
+    current: string;
+    source?: string;
+    candidates: string[];
+  };
   warnings: string[];
 }
 
@@ -52,6 +57,9 @@ export async function analyzeProject(config: LoopConfig): Promise<ProjectAnalysi
     }
   }
 
+  const discovery = config.providers.modelDiscovery;
+  if (discovery) warnings.push(...discovery.warnings);
+
   return {
     root,
     name: config.project.name,
@@ -61,6 +69,15 @@ export async function analyzeProject(config: LoopConfig): Promise<ProjectAnalysi
     sampleCount: config.task.samples.length,
     allowedProviders: config.providers.allowedProviders,
     allowedModels,
+    ...(discovery
+      ? {
+          modelDiscovery: {
+            current: `${discovery.current.provider}/${discovery.current.model}`,
+            ...(discovery.source ? { source: discovery.source } : {}),
+            candidates: discovery.candidates,
+          },
+        }
+      : {}),
     warnings,
   };
 }

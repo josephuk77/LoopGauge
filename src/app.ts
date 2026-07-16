@@ -23,7 +23,7 @@ export class LoopGaugeApp {
     configPath = "loop.yaml",
     credentials: CredentialResolver = new EnvironmentCredentialResolver(),
   ): Promise<LoopGaugeApp> {
-    const config = await loadConfig(resolve(configPath));
+    const config = await loadConfig(resolve(configPath), credentials);
     const adapters = config.providers.allowedProviders.map((provider) =>
       provider === "openai"
         ? new OpenAICodexProvider(credentials)

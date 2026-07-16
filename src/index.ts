@@ -6,5 +6,11 @@ export * from "./core/types.js";
 export { PriceCatalog, calculateSavings } from "./cost/pricing.js";
 export { estimateSavingsFromPrices } from "./optimization/estimate.js";
 export { OptimizationEngine } from "./optimization/optimizer.js";
+export { MODEL_CATALOG, MODEL_CATALOG_AS_OF } from "./models/catalog.js";
+export {
+  discoverCandidates,
+  resolveAutomaticModelConfig,
+  resolveAutomaticModelConfigFromCatalog,
+} from "./models/discovery.js";
 export { ProviderRegistry, ProviderPolicyError } from "./providers/registry.js";
 export { scoreQuality, scoreSimilarity } from "./quality/scoring.js";

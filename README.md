@@ -4,7 +4,7 @@
 
 LoopGauge is a provider-neutral loop engineering harness that searches for the lowest-cost coding-agent policy that still passes a user-defined quality gate.
 
-It does **not** choose an AI company for you. You explicitly allow OpenAI, Anthropic, or both in `loop.yaml`; LoopGauge refuses every provider and model outside that allowlist. Cross-provider comparison and fallback are opt-in.
+It does **not** choose an AI company for you. You enter the provider and the model you currently use. That model becomes the teacher baseline; LoopGauge discovers cheaper coding-capable candidates only from the same provider and refuses every other company.
 
 > Status: experimental MVP. Run it on representative tasks in a disposable project before relying on its recommendations.
 
@@ -41,7 +41,7 @@ LoopGauge CLI + MCP server
       └── SQLite state + JSONL traces
 ```
 
-The adapters normalize sessions, events, tool usage, tokens, cost, cancellation, and final results. The optimizer varies only user-authorized models, reasoning effort, prompt policy, tool policy, verification, retry, and (when opted in) escalation.
+The adapters normalize sessions, events, tool usage, tokens, cost, cancellation, and final results. The optimizer varies automatically discovered same-provider models, reasoning effort, prompt policy, tool policy, verification, retry, and escalation back to the user's current model.
 
 ## Requirements
 
@@ -69,30 +69,25 @@ node dist/cli.js help
 
 ## Configure a project
 
-The company is a required user choice:
+The company and current model are the only model choices the user must make:
 
 ```bash
-# OpenAI only
-node dist/cli.js init --provider openai --name my-project
+# Current workflow uses OpenAI GPT-5.6
+node dist/cli.js init --provider openai --model gpt-5.6 --name my-project
 
-# Anthropic only
-node dist/cli.js init --provider anthropic --name my-project
-
-# Both companies are allowed, but roles remain manually selected
-node dist/cli.js init --provider both --name my-project
+# Current workflow uses Anthropic Claude Sonnet 5
+node dist/cli.js init --provider anthropic --model claude-sonnet-5 --name my-project
 ```
 
 Edit the generated `loop.yaml` before running anything:
 
-- replace placeholder model IDs;
-- enter a dated price snapshot for every allowed model;
-- update `priceCatalogAsOf` to the timestamp of that snapshot;
-- select teacher, candidate, and optional judge roles;
 - verify setup/build/test/lint/typecheck commands;
 - replace the sample tasks with real recurring work;
 - optionally set `baselinePatchPath` to compare against an existing result.
 
-`selectionMode: manual` runs only the explicit candidate list. `auto-within-allowlist` may compare every model in `allowedModels` and may escalate a failed production run to the configured teacher. It still cannot leave `allowedProviders` or `allowedModels`.
+On `analyze`, LoopGauge queries the selected provider's Models API when an API key is available, intersects that response with its dated coding-model price catalog, and selects up to `maxCandidates` models that are both lower-ranked and cheaper than the current model. It removes candidates dominated on both capability and price, while retaining close-quality choices and the cheapest endpoint. If the API cannot be reached, it falls back to the built-in catalog and reports that fact as a warning. It never discovers candidates from another provider.
+
+The built-in catalog is dated `2026-07-16` and is based on the official [OpenAI model catalog](https://developers.openai.com/api/docs/models), [OpenAI Models API](https://platform.openai.com/docs/api-reference/models), [Anthropic model overview](https://platform.claude.com/docs/en/about-claude/models/overview), and [Anthropic Models API](https://platform.claude.com/docs/en/api/models/list). Every optimization report records the catalog timestamp.
 
 ## CLI workflow
 
@@ -186,7 +181,7 @@ Cost includes input, output, cache reads/writes, configured tool charges, retrie
 - Experiments run with bounded iterations and budgets in detached worktrees.
 - Network access is off by default.
 - Provider/model policy is checked immediately before every agent call.
-- Manual mode never performs automatic provider fallback.
+- Automatic discovery never crosses the provider selected for the current model.
 - API/provider failures are persisted and scored as failures rather than silently ignored.
 - LoopGauge does not collect or imitate hidden chain-of-thought; it optimizes observable prompts, actions, checks, costs, and outcomes.
 

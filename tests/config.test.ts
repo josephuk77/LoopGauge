@@ -1,8 +1,10 @@
-import { mkdtemp, access } from "node:fs/promises";
+import { mkdtemp, access, readFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import YAML from "yaml";
+import { initializeConfig } from "../src/config/init.js";
+import { loadConfig } from "../src/config/load.js";
 import { loopConfigSchema } from "../src/config/schema.js";
 import { generateProviderArtifacts } from "../src/project/artifacts.js";
 import { makeConfig } from "./helpers.js";
@@ -33,5 +35,28 @@ describe("loop config provider policy", () => {
     const written = await generateProviderArtifacts(makeConfig(), directory);
     expect(written.map((path) => path.split(/[\\/]/).at(-1))).toEqual(["AGENTS.md"]);
     await expect(access(join(directory, "generated", "CLAUDE.md"))).rejects.toThrow();
+  });
+
+  it("writes only the current model choice and resolves managed candidates on load", async () => {
+    const directory = await mkdtemp(join(tmpdir(), "loopgauge-config-"));
+    const path = await initializeConfig({
+      projectName: "fixture",
+      provider: "openai",
+      currentModel: "gpt-5.6",
+      path: join(directory, "loop.yaml"),
+    });
+    const raw = YAML.parse(await readFile(path, "utf8"));
+    expect(raw.providers).toEqual({
+      modelDiscovery: {
+        current: { provider: "openai", model: "gpt-5.6" },
+        maxCandidates: 4,
+        refreshFromProvider: true,
+      },
+    });
+
+    const loaded = await loadConfig(path, { async getApiKey() { return undefined; } });
+    expect(loaded.providers.roles.teacher.model).toBe("gpt-5.6");
+    expect(loaded.providers.roles.candidates.length).toBeGreaterThan(0);
+    expect(loaded.providers.allowedProviders).toEqual(["openai"]);
   });
 });

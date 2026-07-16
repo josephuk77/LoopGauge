@@ -84,25 +84,24 @@ async function main(): Promise<void> {
 
 async function initCommand(args: ParsedArgs): Promise<void> {
   const rawProvider = requiredFlag(args, "provider");
-  const providers = parseProviders(rawProvider);
+  const provider = parseProvider(rawProvider);
   const path = await initializeConfig({
     projectName: stringFlag(args, "name") ?? "LoopGauge project",
-    providers,
+    provider,
+    currentModel: requiredFlag(args, "model"),
     path: stringFlag(args, "config") ?? "loop.yaml",
     force: booleanFlag(args, "force"),
   });
   console.log(`Created ${path}`);
-  console.log("Edit model IDs, price snapshots, commands, and representative tasks before running analyze.");
+  console.log("Edit project commands and representative tasks, then run analyze.");
+  console.log("LoopGauge will discover cheaper models from the selected provider automatically.");
 }
 
-function parseProviders(value: string): ProviderId[] {
-  const providers = value === "both" ? ["openai", "anthropic"] : value.split(",");
-  for (const provider of providers) {
-    if (provider !== "openai" && provider !== "anthropic") {
-      throw new Error("--provider must be openai, anthropic, or both");
-    }
+function parseProvider(value: string): ProviderId {
+  if (value !== "openai" && value !== "anthropic") {
+    throw new Error("--provider must be openai or anthropic");
   }
-  return [...new Set(providers)] as ProviderId[];
+  return value;
 }
 
 function parseArgs(values: string[]): ParsedArgs {
@@ -168,7 +167,7 @@ function print(value: unknown): void {
 }
 
 function helpText(): string {
-  return `LoopGauge - cost-first, provider-neutral agent loop optimization\n\nCommands:\n  init --provider openai|anthropic|both [--name NAME] [--config PATH]\n  analyze [--config PATH]\n  optimize [--config PATH] [--resume JOB_ID] [--json]\n  run --job JOB_ID --prompt TASK [--config PATH]\n  compare --job JOB_ID [--config PATH]\n  report [--job JOB_ID] [--config PATH] [--json]\n\nCredentials are read from OPENAI_API_KEY/CODEX_API_KEY and ANTHROPIC_API_KEY.\nOnly providers and models explicitly allowed in loop.yaml can be called.`;
+  return `LoopGauge - cost-first, provider-neutral agent loop optimization\n\nCommands:\n  init --provider openai|anthropic --model CURRENT_MODEL [--name NAME] [--config PATH]\n  analyze [--config PATH]\n  optimize [--config PATH] [--resume JOB_ID] [--json]\n  run --job JOB_ID --prompt TASK [--config PATH]\n  compare --job JOB_ID [--config PATH]\n  report [--job JOB_ID] [--config PATH] [--json]\n\nCredentials are read from OPENAI_API_KEY/CODEX_API_KEY and ANTHROPIC_API_KEY.\nThe user chooses the current model; cheaper models are discovered only within that provider.`;
 }
 
 main().catch((error: unknown) => {

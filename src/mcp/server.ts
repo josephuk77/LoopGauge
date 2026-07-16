@@ -24,7 +24,7 @@ server.registerTool(
   "analyze_project",
   {
     title: "Analyze a project for LoopGauge",
-    description: "Detect project checks and show the exact user-allowed provider/model scope.",
+    description: "Detect project checks and show the user-selected current model plus automatically discovered cheaper candidates.",
     inputSchema: configInput,
     annotations: { readOnlyHint: false, idempotentHint: true },
   },

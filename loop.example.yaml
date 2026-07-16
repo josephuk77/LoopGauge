@@ -24,58 +24,14 @@ task:
       # Optional reference produced by an existing workflow:
       # baselinePatchPath: fixtures/edge-case-1.patch
 providers:
-  priceCatalogAsOf: 2026-07-16T00:00:00.000Z
-  selectionMode: manual
-  allowedProviders:
-    - openai
-    - anthropic
-  openai:
-    allowedModels:
-      - your-openai-teacher-model
-      - your-openai-candidate-model
-    prices:
-      your-openai-teacher-model:
-        inputPerMillionUsd: 0
-        outputPerMillionUsd: 0
-        cacheReadPerMillionUsd: 0
-        cacheWritePerMillionUsd: 0
-        tools: {}
-      your-openai-candidate-model:
-        inputPerMillionUsd: 0
-        outputPerMillionUsd: 0
-        cacheReadPerMillionUsd: 0
-        cacheWritePerMillionUsd: 0
-        tools: {}
-  anthropic:
-    allowedModels:
-      - your-anthropic-teacher-model
-      - your-anthropic-candidate-model
-    prices:
-      your-anthropic-teacher-model:
-        inputPerMillionUsd: 0
-        outputPerMillionUsd: 0
-        cacheReadPerMillionUsd: 0
-        cacheWritePerMillionUsd: 0
-        tools: {}
-      your-anthropic-candidate-model:
-        inputPerMillionUsd: 0
-        outputPerMillionUsd: 0
-        cacheReadPerMillionUsd: 0
-        cacheWritePerMillionUsd: 0
-        tools: {}
-  roles:
-    teacher:
+  # This is the only model the user chooses. It becomes the teacher baseline.
+  modelDiscovery:
+    current:
       provider: openai
-      model: your-openai-teacher-model
-    candidates:
-      - provider: openai
-        model: your-openai-candidate-model
-      - provider: anthropic
-        model: your-anthropic-candidate-model
-    # Optional independent requirement judge. It must also be explicitly allowed.
-    # judge:
-    #   provider: anthropic
-    #   model: your-anthropic-teacher-model
+      model: gpt-5.6
+    # LoopGauge loads cheaper coding-capable models only from the same provider.
+    maxCandidates: 4
+    refreshFromProvider: true
 quality:
   minimumBaselineRatio: 0.95
   weights:
