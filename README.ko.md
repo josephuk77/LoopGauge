@@ -33,7 +33,7 @@ PASS  haiku-guarded     quality  96.4  success 100%  $0.057/approved
 Selected: Claude Haiku 4.5 + validation + Opus escalation
 ```
 
-위 숫자는 모두 합성 데이터이며 실제 모델 성능이나 비용 절감 주장으로 사용할 수 없습니다. 실제 결과를 공개하기 전 [벤치마크 방법론](docs/benchmark-methodology.md)을 따라야 합니다.
+위 숫자는 모두 합성 데이터이며 실제 모델 성능이나 비용 절감 주장으로 사용할 수 없습니다. 실제 결과를 공개하기 전 [벤치마크 방법론](docs/benchmark-methodology.ko.md)을 따라야 합니다.
 
 ## 무엇을 해결하나요?
 
@@ -245,7 +245,7 @@ node dist/cli.js init --provider anthropic --model claude-sonnet-5 --name my-pro
 
 ### 2. `loop.yaml` 수정
 
-[loop.example.yaml](loop.example.yaml)을 참고합니다. 모델 설정은 다음처럼 단순합니다.
+[한국어 설정 예제](loop.example.ko.yaml) 또는 [영어 설정 예제](loop.example.yaml)를 참고합니다. 모델 설정은 다음처럼 단순합니다.
 
 ```yaml
 providers:
@@ -440,11 +440,14 @@ npm run build
 
 프로젝트 자료:
 
-- [벤치마크 방법론](docs/benchmark-methodology.md)
-- [로드맵](docs/roadmap.md)
-- [기여 안내](CONTRIBUTING.md)
-- [보안 정책](SECURITY.md)
-- [변경 이력](CHANGELOG.md)
+- [벤치마크 방법론](docs/benchmark-methodology.ko.md)
+- [벤치마크](benchmarks/README.ko.md)
+- [로드맵](docs/roadmap.ko.md)
+- [기여 안내](CONTRIBUTING.ko.md)
+- [보안 정책](SECURITY.ko.md)
+- [행동강령](CODE_OF_CONDUCT.ko.md)
+- [변경 이력](CHANGELOG.ko.md)
+- [MIT 라이선스 한국어 참고 번역](LICENSE.ko.md)
 
 npm 공개 배포 준비는 완료했지만 아직 패키지를 발행하지 않았습니다. 그전까지는 위의 로컬 빌드 방법을 사용합니다.
 

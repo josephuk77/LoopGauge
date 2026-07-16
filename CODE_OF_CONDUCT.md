@@ -1,5 +1,7 @@
 # Code of Conduct
 
+[English](CODE_OF_CONDUCT.md) | [한국어](CODE_OF_CONDUCT.ko.md)
+
 LoopGauge is an evidence-first engineering project. Participation should be respectful, specific, and safe.
 
 ## Expected behavior

@@ -1,5 +1,7 @@
 # Benchmark methodology
 
+[English](benchmark-methodology.md) | [한국어](benchmark-methodology.ko.md)
+
 LoopGauge optimizes cost under a quality constraint. A benchmark is credible only when the task distribution, graders, costs, and stopping rules are defined before inspecting the final holdout results.
 
 ## Evidence levels

@@ -1,0 +1,66 @@
+version: 1
+project:
+  name: your-project
+  root: .
+  commands:
+    setup: npm ci
+    build: npm run build
+    test: npm test
+    lint: npm run lint
+    typecheck: npm run typecheck
+  commandTimeoutMs: 300000
+task:
+  name: your-repeated-task
+  samples:
+    - id: representative-1
+      prompt: 대표 작업으로 바꾸세요.
+      requirementScore: 1
+    - id: representative-2
+      prompt: 두 번째 대표 작업으로 바꾸세요.
+      requirementScore: 1
+    - id: edge-case-1
+      prompt: 중요한 경계 사례로 바꾸세요.
+      requirementScore: 1
+      # 기존 작업 흐름에서 만든 선택적 기준 결과입니다.
+      # baselinePatchPath: fixtures/edge-case-1.patch
+providers:
+  # 사용자가 선택하는 유일한 모델이며 teacher 기준선이 됩니다.
+  modelDiscovery:
+    current:
+      provider: openai
+      model: gpt-5.6
+    # LoopGauge는 같은 공급자에서 더 저렴하고 코딩 가능한 모델만 불러옵니다.
+    maxCandidates: 4
+    refreshFromProvider: true
+quality:
+  minimumBaselineRatio: 0.95
+  weights:
+    functional: 60
+    requirements: 20
+    regression: 10
+    staticAnalysis: 10
+  similarityWeights:
+    behavior: 70
+    structure: 20
+    text: 10
+optimization:
+  budgetUsd: 30
+  perRunBudgetUsd: 3
+  baselineRepetitions: 3
+  maxIterations: 30
+  noImprovementLimit: 4
+  reasoningEfforts:
+    - low
+    - medium
+  promptVariants:
+    - plain
+    - verify
+    - budget-aware
+  allowedTools:
+    - Read
+    - Edit
+    - Write
+    - Bash
+    - Glob
+    - Grep
+  networkAccess: false

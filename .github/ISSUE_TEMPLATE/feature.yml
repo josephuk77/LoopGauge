@@ -1,22 +1,22 @@
-name: Feature request
-description: Suggest a focused improvement tied to an observable user outcome.
+name: Feature request / 기능 제안
+description: Suggest a focused, observable improvement. / 관찰 가능한 결과와 연결된 개선을 제안합니다.
 title: "[feature] "
 labels: [enhancement]
 body:
   - type: textarea
     id: problem
     attributes:
-      label: Problem
-      description: What workflow is blocked or unnecessarily expensive today?
+      label: Problem / 문제
+      description: What workflow is blocked or unnecessarily expensive today? / 현재 어떤 작업이 막혀 있거나 불필요하게 비싼가요?
     validations:
       required: true
   - type: textarea
     id: outcome
     attributes:
-      label: Desired observable outcome
+      label: Desired observable outcome / 원하는 관찰 가능 결과
     validations:
       required: true
   - type: textarea
     id: boundaries
     attributes:
-      label: Provider, privacy, and budget boundaries
+      label: Provider, privacy, and budget boundaries / 공급자·개인정보·예산 경계
