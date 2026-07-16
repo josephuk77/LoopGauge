@@ -1,5 +1,7 @@
 # LoopGauge
 
+[English](README.md) | [한국어](README.ko.md)
+
 LoopGauge is a provider-neutral loop engineering harness that searches for the lowest-cost coding-agent policy that still passes a user-defined quality gate.
 
 It does **not** choose an AI company for you. You explicitly allow OpenAI, Anthropic, or both in `loop.yaml`; LoopGauge refuses every provider and model outside that allowlist. Cross-provider comparison and fallback are opt-in.
