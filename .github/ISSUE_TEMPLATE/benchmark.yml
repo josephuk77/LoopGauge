@@ -1,33 +1,33 @@
-name: Benchmark or grader proposal
-description: Propose a reproducible task suite, grader, provider adapter, or optimization strategy.
+name: Benchmark or grader / 벤치마크·grader 제안
+description: Propose reproducible evaluation work. / 재현 가능한 평가 작업을 제안합니다.
 title: "[benchmark] "
 labels: [benchmark]
 body:
   - type: input
     id: task
     attributes:
-      label: Repeated task type
-      placeholder: Repository bug fixes, transcript-to-shorts selection, structured extraction...
+      label: Repeated task type / 반복 작업 유형
+      placeholder: Repository bug fixes, transcript-to-shorts selection... / 저장소 버그 수정, 대본-to-쇼츠 선택...
     validations:
       required: true
   - type: textarea
     id: quality
     attributes:
-      label: Observable quality definition
-      description: Define mandatory failures, scoring, human review, and the held-out evaluation set.
+      label: Observable quality definition / 관찰 가능한 품질 정의
+      description: Define mandatory failures, scoring, human review, and the held-out evaluation set. / 필수 탈락, 점수, 사람 검토와 holdout 평가 세트를 정의하세요.
     validations:
       required: true
   - type: textarea
     id: cost
     attributes:
-      label: Complete cost definition
-      description: Include retries, judges, escalation, tool calls, failed work, and human review where relevant.
+      label: Complete cost definition / 전체 비용 정의
+      description: Include retries, judges, escalation, tool calls, failed work, and human review. / 재시도, judge, 승격, 도구, 실패 작업과 사람 검토를 포함하세요.
     validations:
       required: true
   - type: textarea
     id: reproduce
     attributes:
-      label: Reproduction plan
-      description: Describe data licensing, commands, seeds, model snapshots, and raw result publication.
+      label: Reproduction plan / 재현 계획
+      description: Describe data licensing, commands, seeds, model snapshots, and raw result publication. / 데이터 라이선스, 명령, seed, 모델 snapshot과 원시 결과 공개 방법을 적어 주세요.
     validations:
       required: true

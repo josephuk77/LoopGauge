@@ -1,40 +1,44 @@
-name: Bug report
-description: Report a reproducible LoopGauge defect without including API keys or private project data.
+name: Bug report / 버그 신고
+description: Report a reproducible defect without secrets. / 비밀정보 없이 재현 가능한 문제를 신고합니다.
 title: "[bug] "
 labels: [bug]
 body:
   - type: markdown
     attributes:
-      value: Never paste API keys, proprietary prompts, source code, or customer data.
+      value: "Never paste API keys, proprietary prompts, private source code, or customer data. / API 키, 독점 프롬프트, 비공개 소스 코드 또는 고객 데이터를 붙여 넣지 마세요."
   - type: input
     id: version
     attributes:
-      label: LoopGauge version or commit
+      label: LoopGauge version or commit / 버전 또는 커밋
     validations:
       required: true
   - type: dropdown
     id: provider
     attributes:
-      label: Provider scope
-      options: [OpenAI only, Anthropic only, Both in a legacy explicit config, API-free demo]
+      label: Provider scope / 공급자 범위
+      options:
+        - OpenAI only / OpenAI만
+        - Anthropic only / Anthropic만
+        - Both in an explicit legacy config / 명시적 레거시 설정에서 둘 다
+        - API-free demo / API 없는 데모
     validations:
       required: true
   - type: textarea
     id: reproduce
     attributes:
-      label: Minimal reproduction
-      description: Include sanitized commands, configuration, and expected versus actual behavior.
+      label: Minimal reproduction / 최소 재현
+      description: Include sanitized commands, configuration, and expected versus actual behavior. / 비식별화된 명령·설정과 예상·실제 동작을 적어 주세요.
     validations:
       required: true
   - type: textarea
     id: logs
     attributes:
-      label: Sanitized logs
+      label: Sanitized logs / 비식별화된 로그
       render: text
   - type: checkboxes
     id: checks
     attributes:
-      label: Safety confirmation
+      label: Safety confirmation / 안전 확인
       options:
-        - label: I removed API keys, secrets, private code, and customer data.
+        - label: I removed API keys, secrets, private code, and customer data. / API 키, 비밀정보, 비공개 코드와 고객 데이터를 제거했습니다.
           required: true

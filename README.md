@@ -235,10 +235,13 @@ The test suite covers provider deny-by-default behavior, price accounting, quali
 Project resources:
 
 - [Benchmark methodology](docs/benchmark-methodology.md)
+- [Benchmarks](benchmarks/README.md)
 - [Roadmap](docs/roadmap.md)
 - [Contributing](CONTRIBUTING.md)
 - [Security policy](SECURITY.md)
+- [Code of Conduct](CODE_OF_CONDUCT.md)
 - [Changelog](CHANGELOG.md)
+- [Unofficial Korean MIT License translation](LICENSE.ko.md)
 
 The package is prepared for a public npm release but has not been published yet. Until then, use the local build shown above.
 

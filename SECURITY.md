@@ -1,5 +1,7 @@
 # Security Policy
 
+[English](SECURITY.md) | [한국어](SECURITY.ko.md)
+
 LoopGauge executes coding agents and project commands, so treat every configuration and benchmark as executable code.
 
 ## Supported versions

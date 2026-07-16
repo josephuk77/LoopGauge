@@ -1,5 +1,7 @@
 # Changelog
 
+[English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
+
 All notable changes are documented here. LoopGauge follows semantic versioning after the experimental `0.x` line.
 
 ## [0.2.0] - 2026-07-16
@@ -7,6 +9,7 @@ All notable changes are documented here. LoopGauge follows semantic versioning a
 - Add an API-free synthetic replay demo.
 - Add reproducible benchmark methodology and contribution templates.
 - Add GitHub Actions CI for Node.js 22 and 24.
+- Add Korean counterparts for all user and contributor documentation.
 
 ## [0.1.0] - 2026-07-16
 

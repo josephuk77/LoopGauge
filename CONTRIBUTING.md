@@ -1,5 +1,7 @@
 # Contributing to LoopGauge
 
+[English](CONTRIBUTING.md) | [한국어](CONTRIBUTING.ko.md)
+
 LoopGauge welcomes focused issues and pull requests around provider adapters, deterministic graders, price-catalog importers, and reproducible loop strategies.
 
 Before submitting a change:

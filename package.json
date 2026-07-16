@@ -38,11 +38,19 @@
     "README.md",
     "README.ko.md",
     "CHANGELOG.md",
+    "CHANGELOG.ko.md",
     "SECURITY.md",
+    "SECURITY.ko.md",
+    "CONTRIBUTING.md",
+    "CONTRIBUTING.ko.md",
+    "CODE_OF_CONDUCT.md",
+    "CODE_OF_CONDUCT.ko.md",
     "docs",
     "benchmarks",
     "LICENSE",
-    "loop.example.yaml"
+    "LICENSE.ko.md",
+    "loop.example.yaml",
+    "loop.example.ko.yaml"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
