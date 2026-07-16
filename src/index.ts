@@ -1,0 +1,10 @@
+export { LoopGaugeApp } from "./app.js";
+export { loadConfig, parseConfig } from "./config/load.js";
+export { loopConfigSchema } from "./config/schema.js";
+export type { LoopConfig, ModelPrice, ProviderConfig } from "./config/schema.js";
+export * from "./core/types.js";
+export { PriceCatalog, calculateSavings } from "./cost/pricing.js";
+export { estimateSavingsFromPrices } from "./optimization/estimate.js";
+export { OptimizationEngine } from "./optimization/optimizer.js";
+export { ProviderRegistry, ProviderPolicyError } from "./providers/registry.js";
+export { scoreQuality, scoreSimilarity } from "./quality/scoring.js";

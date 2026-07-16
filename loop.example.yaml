@@ -1,0 +1,110 @@
+version: 1
+project:
+  name: your-project
+  root: .
+  commands:
+    setup: npm ci
+    build: npm run build
+    test: npm test
+    lint: npm run lint
+    typecheck: npm run typecheck
+  commandTimeoutMs: 300000
+task:
+  name: your-repeated-task
+  samples:
+    - id: representative-1
+      prompt: Replace this with a representative task.
+      requirementScore: 1
+    - id: representative-2
+      prompt: Replace this with a second representative task.
+      requirementScore: 1
+    - id: edge-case-1
+      prompt: Replace this with an important edge case.
+      requirementScore: 1
+      # Optional reference produced by an existing workflow:
+      # baselinePatchPath: fixtures/edge-case-1.patch
+providers:
+  priceCatalogAsOf: 2026-07-16T00:00:00.000Z
+  selectionMode: manual
+  allowedProviders:
+    - openai
+    - anthropic
+  openai:
+    allowedModels:
+      - your-openai-teacher-model
+      - your-openai-candidate-model
+    prices:
+      your-openai-teacher-model:
+        inputPerMillionUsd: 0
+        outputPerMillionUsd: 0
+        cacheReadPerMillionUsd: 0
+        cacheWritePerMillionUsd: 0
+        tools: {}
+      your-openai-candidate-model:
+        inputPerMillionUsd: 0
+        outputPerMillionUsd: 0
+        cacheReadPerMillionUsd: 0
+        cacheWritePerMillionUsd: 0
+        tools: {}
+  anthropic:
+    allowedModels:
+      - your-anthropic-teacher-model
+      - your-anthropic-candidate-model
+    prices:
+      your-anthropic-teacher-model:
+        inputPerMillionUsd: 0
+        outputPerMillionUsd: 0
+        cacheReadPerMillionUsd: 0
+        cacheWritePerMillionUsd: 0
+        tools: {}
+      your-anthropic-candidate-model:
+        inputPerMillionUsd: 0
+        outputPerMillionUsd: 0
+        cacheReadPerMillionUsd: 0
+        cacheWritePerMillionUsd: 0
+        tools: {}
+  roles:
+    teacher:
+      provider: openai
+      model: your-openai-teacher-model
+    candidates:
+      - provider: openai
+        model: your-openai-candidate-model
+      - provider: anthropic
+        model: your-anthropic-candidate-model
+    # Optional independent requirement judge. It must also be explicitly allowed.
+    # judge:
+    #   provider: anthropic
+    #   model: your-anthropic-teacher-model
+quality:
+  minimumBaselineRatio: 0.95
+  weights:
+    functional: 60
+    requirements: 20
+    regression: 10
+    staticAnalysis: 10
+  similarityWeights:
+    behavior: 70
+    structure: 20
+    text: 10
+optimization:
+  budgetUsd: 30
+  perRunBudgetUsd: 3
+  baselineRepetitions: 3
+  maxIterations: 30
+  noImprovementLimit: 4
+  reasoningEfforts:
+    - low
+    - medium
+  promptVariants:
+    - plain
+    - verify
+    - budget-aware
+  allowedTools:
+    - Read
+    - Edit
+    - Write
+    - Bash
+    - Glob
+    - Grep
+  networkAccess: false
