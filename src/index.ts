@@ -4,6 +4,7 @@ export { loopConfigSchema } from "./config/schema.js";
 export type { LoopConfig, ModelPrice, ProviderConfig } from "./config/schema.js";
 export * from "./core/types.js";
 export { PriceCatalog, calculateSavings } from "./cost/pricing.js";
+export { createDemoReport, formatDemoReport } from "./demo.js";
 export { estimateSavingsFromPrices } from "./optimization/estimate.js";
 export { OptimizationEngine } from "./optimization/optimizer.js";
 export { MODEL_CATALOG, MODEL_CATALOG_AS_OF } from "./models/catalog.js";

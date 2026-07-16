@@ -3,6 +3,7 @@ import { resolve } from "node:path";
 import { LoopGaugeApp } from "./app.js";
 import { initializeConfig } from "./config/init.js";
 import type { ProviderId } from "./core/types.js";
+import { createDemoReport, formatDemoReport } from "./demo.js";
 import { estimateSavingsFromPrices } from "./optimization/estimate.js";
 import { analyzeProject } from "./project/analyzer.js";
 import { generateProviderArtifacts } from "./project/artifacts.js";
@@ -18,6 +19,11 @@ async function main(): Promise<void> {
   const args = parseArgs(process.argv.slice(2));
   const configPath = stringFlag(args, "config") ?? "loop.yaml";
   switch (args.command) {
+    case "demo": {
+      const report = createDemoReport();
+      booleanFlag(args, "json") ? print(report) : console.log(formatDemoReport(report));
+      return;
+    }
     case "init":
       await initCommand(args);
       return;
@@ -167,7 +173,7 @@ function print(value: unknown): void {
 }
 
 function helpText(): string {
-  return `LoopGauge - cost-first, provider-neutral agent loop optimization\n\nCommands:\n  init --provider openai|anthropic --model CURRENT_MODEL [--name NAME] [--config PATH]\n  analyze [--config PATH]\n  optimize [--config PATH] [--resume JOB_ID] [--json]\n  run --job JOB_ID --prompt TASK [--config PATH]\n  compare --job JOB_ID [--config PATH]\n  report [--job JOB_ID] [--config PATH] [--json]\n\nCredentials are read from OPENAI_API_KEY/CODEX_API_KEY and ANTHROPIC_API_KEY.\nThe user chooses the current model; cheaper models are discovered only within that provider.`;
+  return `LoopGauge - cost-first, provider-neutral agent loop optimization\n\nCommands:\n  demo [--json]  # API-free synthetic replay\n  init --provider openai|anthropic --model CURRENT_MODEL [--name NAME] [--config PATH]\n  analyze [--config PATH]\n  optimize [--config PATH] [--resume JOB_ID] [--json]\n  run --job JOB_ID --prompt TASK [--config PATH]\n  compare --job JOB_ID [--config PATH]\n  report [--job JOB_ID] [--config PATH] [--json]\n\nCredentials are read from OPENAI_API_KEY/CODEX_API_KEY and ANTHROPIC_API_KEY.\nThe user chooses the current model; cheaper models are discovered only within that provider.`;
 }
 
 main().catch((error: unknown) => {
