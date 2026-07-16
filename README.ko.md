@@ -2,11 +2,38 @@
 
 [English](README.md) | 한국어
 
-LoopGauge는 사용자가 정한 품질 기준을 통과하면서 실행 비용이 가장 낮은 코딩 에이전트 정책을 찾는 **공급자 중립형 루프 엔지니어링 하네스**입니다.
+[![CI](https://github.com/josephuk77/LoopGauge/actions/workflows/ci.yml/badge.svg)](https://github.com/josephuk77/LoopGauge/actions/workflows/ci.yml)
+[![Node.js 22+](https://img.shields.io/badge/Node.js-22%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+**프로젝트의 품질 기준을 통과하는 가장 저렴한 LLM 실행 정책을 찾습니다.**
+
+LoopGauge는 단순 요청 라우터가 아니라 공급자 중립형 실험 하네스입니다. 실제 프로젝트의 대표 작업에서 저비용 모델, 프롬프트, 추론 강도, 재시도와 상위 모델 승격 정책을 실행한 뒤 검증된 정책을 추천합니다.
 
 LoopGauge가 사용할 AI 회사를 임의로 선택하지 않습니다. 사용자는 현재 사용하는 회사와 기준 모델 하나만 입력합니다. LoopGauge는 같은 회사의 더 저렴한 코딩 가능 모델을 자동으로 불러오며, 다른 회사는 후보 검색·평가·fallback을 포함해 호출하지 않습니다.
 
 > 현재 상태는 실험용 MVP입니다. 실제 프로젝트에 적용하기 전에 별도의 테스트 프로젝트와 대표 작업으로 결과를 검증하세요.
+
+## 60초 API 무료 데모
+
+```bash
+git clone https://github.com/josephuk77/LoopGauge.git
+cd LoopGauge
+npm ci
+npm run demo
+```
+
+데모는 공급자 API를 한 번도 호출하지 않습니다. 합성 관측값을 재생해 가장 싼 후보가 품질 하한 때문에 탈락하고, 검증과 승격을 포함한 최저비용 통과 정책이 선택되는 과정을 보여줍니다.
+
+```text
+PASS  sonnet-verify     quality  97.4  success 100%  $0.072/approved
+FAIL  haiku-direct      quality  89.1  success  80%  $0.026/approved
+PASS  haiku-guarded     quality  96.4  success 100%  $0.057/approved
+
+Selected: Claude Haiku 4.5 + validation + Opus escalation
+```
+
+위 숫자는 모두 합성 데이터이며 실제 모델 성능이나 비용 절감 주장으로 사용할 수 없습니다. 실제 결과를 공개하기 전 [벤치마크 방법론](docs/benchmark-methodology.md)을 따라야 합니다.
 
 ## 무엇을 해결하나요?
 
@@ -52,6 +79,16 @@ LoopGauge CLI / MCP 서버
         ├─ 예산 및 종료 조건 검사
         └─ SQLite 상태 + JSONL 이벤트 저장
 ```
+
+## 일반 모델 라우터와의 차이
+
+| 일반 요청 라우터 | LoopGauge |
+| --- | --- |
+| 실시간 요청의 모델을 선택 | 운영 정책을 추천하기 전에 반복 실험 |
+| 작업 난이도를 예측하는 경우가 많음 | 실제 프로젝트 검사와 결과를 측정 |
+| 호출당 비용 중심 | 성공 작업당 총비용 중심 |
+| 실패·재시도 비용이 빠질 수 있음 | 재시도·judge·실패·승격 비용 포함 |
+| 라우팅 결과 반환 | 품질·비용·절감률·손익분기 증거 반환 |
 
 ### 1. 설정 읽기
 
@@ -400,6 +437,16 @@ npm run typecheck
 npm test
 npm run build
 ```
+
+프로젝트 자료:
+
+- [벤치마크 방법론](docs/benchmark-methodology.md)
+- [로드맵](docs/roadmap.md)
+- [기여 안내](CONTRIBUTING.md)
+- [보안 정책](SECURITY.md)
+- [변경 이력](CHANGELOG.md)
+
+npm 공개 배포 준비는 완료했지만 아직 패키지를 발행하지 않았습니다. 그전까지는 위의 로컬 빌드 방법을 사용합니다.
 
 테스트는 다음 동작을 검증합니다.
 

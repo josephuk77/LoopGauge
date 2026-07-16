@@ -1,0 +1,40 @@
+name: Bug report
+description: Report a reproducible LoopGauge defect without including API keys or private project data.
+title: "[bug] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Never paste API keys, proprietary prompts, source code, or customer data.
+  - type: input
+    id: version
+    attributes:
+      label: LoopGauge version or commit
+    validations:
+      required: true
+  - type: dropdown
+    id: provider
+    attributes:
+      label: Provider scope
+      options: [OpenAI only, Anthropic only, Both in a legacy explicit config, API-free demo]
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Minimal reproduction
+      description: Include sanitized commands, configuration, and expected versus actual behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Sanitized logs
+      render: text
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Safety confirmation
+      options:
+        - label: I removed API keys, secrets, private code, and customer data.
+          required: true

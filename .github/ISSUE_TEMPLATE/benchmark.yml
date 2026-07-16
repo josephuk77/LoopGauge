@@ -1,0 +1,33 @@
+name: Benchmark or grader proposal
+description: Propose a reproducible task suite, grader, provider adapter, or optimization strategy.
+title: "[benchmark] "
+labels: [benchmark]
+body:
+  - type: input
+    id: task
+    attributes:
+      label: Repeated task type
+      placeholder: Repository bug fixes, transcript-to-shorts selection, structured extraction...
+    validations:
+      required: true
+  - type: textarea
+    id: quality
+    attributes:
+      label: Observable quality definition
+      description: Define mandatory failures, scoring, human review, and the held-out evaluation set.
+    validations:
+      required: true
+  - type: textarea
+    id: cost
+    attributes:
+      label: Complete cost definition
+      description: Include retries, judges, escalation, tool calls, failed work, and human review where relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction plan
+      description: Describe data licensing, commands, seeds, model snapshots, and raw result publication.
+    validations:
+      required: true

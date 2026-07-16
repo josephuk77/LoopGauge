@@ -37,7 +37,7 @@ export class AnthropicProvider implements AgentProvider {
       env: {
         ...process.env,
         ANTHROPIC_API_KEY: apiKey,
-        CLAUDE_AGENT_SDK_CLIENT_APP: "loopgauge/0.1.0",
+        CLAUDE_AGENT_SDK_CLIENT_APP: "loopgauge/0.2.0",
       },
       ...(request.sessionId ? { resume: request.sessionId } : {}),
       ...(request.reasoningEffort

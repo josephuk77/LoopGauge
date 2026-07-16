@@ -2,11 +2,38 @@
 
 [English](README.md) | [한국어](README.ko.md)
 
-LoopGauge is a provider-neutral loop engineering harness that searches for the lowest-cost coding-agent policy that still passes a user-defined quality gate.
+[![CI](https://github.com/josephuk77/LoopGauge/actions/workflows/ci.yml/badge.svg)](https://github.com/josephuk77/LoopGauge/actions/workflows/ci.yml)
+[![Node.js 22+](https://img.shields.io/badge/Node.js-22%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+**Find the cheapest LLM policy that still passes your project's quality gate.**
+
+LoopGauge is a provider-neutral experiment harness. Unlike a request router, it runs cheaper model, prompt, reasoning, retry, and escalation policies against representative project tasks before recommending one.
 
 It does **not** choose an AI company for you. You enter the provider and the model you currently use. That model becomes the teacher baseline; LoopGauge discovers cheaper coding-capable candidates only from the same provider and refuses every other company.
 
 > Status: experimental MVP. Run it on representative tasks in a disposable project before relying on its recommendations.
+
+## 60-second API-free demo
+
+```bash
+git clone https://github.com/josephuk77/LoopGauge.git
+cd LoopGauge
+npm ci
+npm run demo
+```
+
+The demo makes zero provider calls. It replays synthetic observations to show why LoopGauge rejects the cheapest policy below the quality gate and selects the cheapest eligible guarded policy.
+
+```text
+PASS  sonnet-verify     quality  97.4  success 100%  $0.072/approved
+FAIL  haiku-direct      quality  89.1  success  80%  $0.026/approved
+PASS  haiku-guarded     quality  96.4  success 100%  $0.057/approved
+
+Selected: Claude Haiku 4.5 + validation + Opus escalation
+```
+
+These values are explicitly synthetic and are not a model-performance or savings claim. See the [benchmark methodology](docs/benchmark-methodology.md) before publishing real results.
 
 ## What it measures
 
@@ -42,6 +69,16 @@ LoopGauge CLI + MCP server
 ```
 
 The adapters normalize sessions, events, tool usage, tokens, cost, cancellation, and final results. The optimizer varies automatically discovered same-provider models, reasoning effort, prompt policy, tool policy, verification, retry, and escalation back to the user's current model.
+
+## Why this is not another router
+
+| Request router | LoopGauge |
+| --- | --- |
+| Chooses a model for a live request | Experiments before recommending a production policy |
+| Often predicts task difficulty | Measures actual project checks and results |
+| Optimizes per-call routing | Optimizes total cost per successful task |
+| May omit failed and retry cost | Includes retry, judge, failure, and escalation cost |
+| Returns a routing decision | Returns evidence, quality scores, savings, and break-even |
 
 ## Requirements
 
@@ -193,7 +230,17 @@ npm test
 npm run build
 ```
 
-The test suite covers provider deny-by-default behavior, price accounting, quality gates, similarity scores, and a real temporary Git-worktree optimization run.
+The test suite covers provider deny-by-default behavior, price accounting, quality gates, similarity scores, the API-free demo, and a real temporary Git-worktree optimization run.
+
+Project resources:
+
+- [Benchmark methodology](docs/benchmark-methodology.md)
+- [Roadmap](docs/roadmap.md)
+- [Contributing](CONTRIBUTING.md)
+- [Security policy](SECURITY.md)
+- [Changelog](CHANGELOG.md)
+
+The package is prepared for a public npm release but has not been published yet. Until then, use the local build shown above.
 
 ## License
 

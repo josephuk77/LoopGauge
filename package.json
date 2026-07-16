@@ -1,9 +1,28 @@
 {
   "name": "loopgauge",
-  "version": "0.1.0",
-  "description": "Provider-neutral loop engineering harness that minimizes agent cost under a quality constraint.",
+  "version": "0.2.0",
+  "description": "Find the cheapest LLM policy that still passes your project's quality gate.",
   "type": "module",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/josephuk77/LoopGauge.git"
+  },
+  "homepage": "https://github.com/josephuk77/LoopGauge#readme",
+  "bugs": {
+    "url": "https://github.com/josephuk77/LoopGauge/issues"
+  },
+  "keywords": [
+    "llm",
+    "cost-optimization",
+    "model-routing",
+    "prompt-optimization",
+    "mcp",
+    "ai-agents"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "engines": {
     "node": ">=22"
   },
@@ -18,11 +37,16 @@
     "dist",
     "README.md",
     "README.ko.md",
+    "CHANGELOG.md",
+    "SECURITY.md",
+    "docs",
+    "benchmarks",
     "LICENSE",
     "loop.example.yaml"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "demo": "tsx src/cli.ts demo",
     "dev": "tsx src/cli.ts",
     "mcp": "tsx src/mcp/server.ts",
     "test": "vitest run",
